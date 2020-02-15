@@ -1,6 +1,4 @@
-const fs = require('fs');
 const notes = require('./notes');
-const chalk = require('chalk');
 const yargs = require('yargs');
 
 yargs.command({
@@ -42,7 +40,7 @@ yargs.command({
     command: 'list',
     describe: 'Listing all notes.',
     handler: function () {
-        console.log('Listing all the notes..')
+        notes.list();
     }
 });
 

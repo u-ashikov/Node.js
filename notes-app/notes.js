@@ -47,6 +47,24 @@ function remove(title) {
     console.log(chalk.green('Note with title ' + title + ' successfully removed!'));
 }
 
+function list() {
+    var allNotes = getNotes();
+
+    if (!allNotes || allNotes.length == 0) {
+        console.log(chalk.red('Ther are no notes!'));
+        return;
+    }
+
+    console.log('All Notes');
+    console.log(Array(40).join('='));
+
+    allNotes.forEach(function (note, index) {
+        console.log(index + 1 + '. Title: ' + note.title + '; Body: ' + note.body);
+    });
+
+    console.log(Array(40).join('='));
+}
+
 function getNotes() {
     try {
         var notesDataBuffer = fs.readFileSync('notes.json');
@@ -64,5 +82,6 @@ function storeNotes(allNotes) {
 
 module.exports = {
     save,
-    remove
+    remove,
+    list
 }
