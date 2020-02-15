@@ -65,6 +65,26 @@ function list() {
     console.log(Array(40).join('='));
 }
 
+function read(title) {
+    var allNotes = getNotes();
+
+    if (!allNotes || allNotes.length == 0) {
+        console.log(chalk.red('Ther are no notes!'));
+        return;
+    }
+
+    var existingNote = allNotes.filter(function (note) {
+        return note.title == title;
+    })[0];
+
+    if (!existingNote) {
+        console.log(chalk.red('Ther is no such note with title ' + title + '!'));
+        return;
+    }
+
+    return JSON.stringify(existingNote);
+}
+
 function getNotes() {
     try {
         var notesDataBuffer = fs.readFileSync('notes.json');
@@ -83,5 +103,6 @@ function storeNotes(allNotes) {
 module.exports = {
     save,
     remove,
-    list
+    list,
+    read
 }
