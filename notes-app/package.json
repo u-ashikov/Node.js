@@ -9,6 +9,7 @@
   "author": "Yulian Ashikov",
   "license": "MIT",
   "dependencies": {
-    "chalk": "^3.0.0"
+    "chalk": "^3.0.0",
+    "yargs": "^15.1.0"
   }
 }
