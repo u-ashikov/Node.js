@@ -7,10 +7,10 @@ function save(title, body) {
     var note = { title, body };
 
     var duplicateNotes = allNotes.filter(function (note) {
-        return note.title == title;
+        return note.title === title;
     });
 
-    if (duplicateNotes && duplicateNotes.length != 0) {
+    if (duplicateNotes && duplicateNotes.length !== 0) {
         console.log(chalk.red('Note with title ' + title + ' already exists!'));
     } else {
         allNotes.push(note);
@@ -19,6 +19,32 @@ function save(title, body) {
 
         console.log(chalk.green('Note saved successfully!'));
     }
+}
+
+function remove(title) {
+    var allNotes = getNotes();
+
+    if (!allNotes || allNotes.length == 0) {
+        console.log(chalk.red('There are no notes!'));
+        return;
+    }
+
+    var existingNotes = allNotes.filter(function (note) {
+        return note.title === title;
+    });
+
+    if (!existingNotes || existingNotes.length == 0) {
+        console.log(chalk.red('No such note with title ' + title + '!'));
+        return;
+    }
+
+    allNotes = allNotes.filter(function (note) {
+        return note.title !== title;
+    });
+
+    storeNotes(allNotes);
+
+    console.log(chalk.green('Note with title ' + title + ' successfully removed!'));
 }
 
 function getNotes() {
@@ -37,5 +63,6 @@ function storeNotes(allNotes) {
 }
 
 module.exports = {
-    save
+    save,
+    remove
 }
