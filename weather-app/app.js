@@ -7,16 +7,16 @@ if (!location) {
     return console.log('Invalid location!');
 }
 
-geocode(location, (error, geoData) => {
+geocode(location, (error, { latitude, longitude, address}) => {
     if (error) {
         return console.log('Error', error);
     } 
 
-    forecast(geoData.latitude, geoData.longitude, (error, forecastInfo) => {
+    forecast(latitude, longitude, (error, forecastInfo) => {
         if (error) {
             return console.log('Error', error);
         }
 
-        console.log(geoData.address + '. ' + forecastInfo);
+        console.log(address + '. ' + forecastInfo);
     });
 });
