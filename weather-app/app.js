@@ -1,9 +1,13 @@
 const geocode = require('./utils/geocode');
 const forecast = require('./utils/forecast');
 
-// TODO: Get the location input from the user.
+var location = process.argv[2];
 
-geocode('Los Angeles', (error, geoData) => {
+if (!location) {
+    return console.log('Invalid location!');
+}
+
+geocode(location, (error, geoData) => {
     if (error) {
         return console.log('Error', error);
     } 

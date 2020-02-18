@@ -12,8 +12,8 @@ function getForecast(latitude, longitude, callback) {
     instance.get('/' + latitude + ',' + longitude)
         .then(function (response) {
             if (response) {
-                var currentlyForecast = response.data.currently;
-                callback(undefined, '' + 'It is currently ' + currentlyForecast.temperature + ' degrees out. There is a ' + currentlyForecast.precipProbability + '% chance of rain.', undefined);
+                var currentForecast = response.data.currently;
+                callback(undefined, '' + 'It is currently ' + currentForecast.temperature + ' degrees out. There is a ' + currentForecast.precipProbability + '% chance of rain.', undefined);
             }
         })
         .catch(function (error) {
