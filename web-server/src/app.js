@@ -52,7 +52,11 @@ app.get('/weather', (req, res) => {
 });
 
 app.get('*', (req, res) => {
-    res.render('not-found');
+    var model = {
+        title: '404'
+    };
+
+    res.render('not-found', model);
 });
 
 app.listen(port, () => {
