@@ -1,19 +1,12 @@
+const path = require('path');
 const express = require('express');
 
 const app = express();
 const port = 3000;
 
-app.get('', (req, res) => {
-    res.send('<h1>Hello Express!</h1>');
-});
+const publicDirectory = path.join(__dirname, '../public');
 
-app.get('/help', (req, res) => {
-    res.send('Help page.');
-});
-
-app.get('/about', (req, res) => {
-    res.send('<h3>About page.</h3>');
-});
+app.use(express.static(publicDirectory));
 
 app.get('/weather', (req, res) => {
     var weatherInfo = {
