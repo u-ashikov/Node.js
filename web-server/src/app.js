@@ -51,6 +51,10 @@ app.get('/weather', (req, res) => {
     res.send(weatherInfo);
 });
 
+app.get('*', (req, res) => {
+    res.render('not-found');
+});
+
 app.listen(port, () => {
     console.log('Server is up and running on port: ' + port);
 });
