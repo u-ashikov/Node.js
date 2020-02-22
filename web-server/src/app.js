@@ -1,3 +1,5 @@
+const geoCode = require('./utils/geocode')
+const forecast = require('./utils/forecast')
 const hbs = require('hbs');
 const path = require('path');
 const express = require('express');
@@ -51,12 +53,28 @@ app.get('/weather', (req, res) => {
         });
     }
 
-    var weatherInfo = {
-        location: query.address,
-        forecast: 'It is currently 9 degrees.'
-    };
+    geoCode.getCoordinates(query.address, (error, geoData) => {
+        if (error) {
+            return res.send({
+                error
+            });
+        }
 
-    res.send(weatherInfo);
+        forecast.get(geoData.latitude, geoData.longitude, (error, forecastData) => {
+            if (error) {
+                return res.send({
+                    error
+                });
+            }
+
+            var weatherInfo = {
+                location: query.address,
+                forecast: forecastData
+            };
+        
+            res.send(weatherInfo);
+        })
+    });
 });
 
 app.get('*', (req, res) => {
