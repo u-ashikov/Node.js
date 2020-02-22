@@ -43,8 +43,16 @@ app.get('/help', (req, res) => {
 });
 
 app.get('/weather', (req, res) => {
+    var query = req.query;
+
+    if (!query.address) {
+        return res.send({
+            error: 'Please provide an address.'
+        });
+    }
+
     var weatherInfo = {
-        location: 'Sofia',
+        location: query.address,
         forecast: 'It is currently 9 degrees.'
     };
 
