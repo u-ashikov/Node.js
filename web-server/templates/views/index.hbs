@@ -9,21 +9,26 @@
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
-    <script src="js/index.js"></script>
 </head>
 
 <body class="container">
     {{>header}}
     <p class="lead my-3 ml-3">Use this app tp get your weather!</p>
 
-    <form class="form-inline my-4">
+    <form id="weather-form" class="form-inline my-4">
         <div class="form-group mx-sm-3 mb-2">
             <label for="location" class="sr-only">Location</label>
-            <input type="text" class="form-control" id="location" name="location" placeholder="Location...">
+            <input type="text" class="form-control" id="address" name="location" placeholder="Location...">
         </div>
         <button type="submit" class="btn btn-primary mb-2">Submit</button>
     </form>
     {{>footer}}
+
+    <p id="error" class="my-3 ml-3 text-danger"></p>
+    <p id="location" class="my-3 ml-3"></p>
+    <p id="forecast" class="my-3 ml-3"></p>
+
+    <script src="js/index.js"></script>
 </body>
 
 </html>

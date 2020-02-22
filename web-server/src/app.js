@@ -68,7 +68,7 @@ app.get('/weather', (req, res) => {
             }
 
             var weatherInfo = {
-                location: query.address,
+                address: geoData.address,
                 forecast: forecastData
             };
         

@@ -10,7 +10,7 @@ function getForecast(latitude, longitude, callback) {
         return;
     }
 
-    instance.get('/' + latitude + ',' + longitude)
+    instance.get('/' + latitude + ',' + longitude + '?units=si')
         .then(function (response) {
             if (response) {
                 var currentForecast = response.data.currently;
