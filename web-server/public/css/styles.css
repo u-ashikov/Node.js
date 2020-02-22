@@ -1,8 +1,10 @@
-h1 {
-    color:#f542cb;
+footer {
+    position: fixed;
+    height: 100px;
+    bottom: 0;
+    width: 100%;
 }
 
-img {
-    width: 250px;
-    height: 200px;
+p {
+    font-size: 1.2em;
 }
