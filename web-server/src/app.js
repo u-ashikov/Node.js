@@ -3,6 +3,7 @@ const forecast = require('./utils/forecast')
 const hbs = require('hbs');
 const path = require('path');
 const express = require('express');
+const HomeController = require('../controllers/home');
 
 const app = express();
 const port = 3000;
@@ -18,31 +19,9 @@ app.set('views', viewsDirectory);
 
 hbs.registerPartials(partialsDirectory);
 
-app.get('', (req, res) => {
-    var model = {
-        title: 'Weather Application'
-    };
-
-    res.render('index', model);
-});
-
-app.get('/about', (req, res) => {
-    var model = {
-        title: 'About Me',
-        name: 'Random cat name'
-    };
-
-    res.render('about', model);
-});
-
-app.get('/help', (req, res) => {
-    var model = {
-        title: 'Help Page',
-        message: 'Here you can find (eventually) help information.'
-    }
-
-    res.render('help', model);
-});
+app.get('/', HomeController.index);
+app.get('/about', HomeController.about);
+app.get('/help', HomeController.help);
 
 app.get('/weather', (req, res) => {
     var query = req.query;
