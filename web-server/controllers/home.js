@@ -1,6 +1,10 @@
 const BaseController = require('./app');
 
 class HomeController extends BaseController {
+    constructor() {
+        super();
+    }
+
     index(req,res) {
         var model = {
             title: 'Weather Application'
@@ -15,7 +19,7 @@ class HomeController extends BaseController {
             name: 'Random cat name'
         };
 
-        return res.render('about', model);
+        res.render('about', model);
     }
 
     help(req, res) {
