@@ -6,51 +6,61 @@ const connectionURL = 'mongodb://127.0.0.1:27017';
 const databaseName = 'task-manager';
 
 MongoClient.connect(connectionURL, { 'useNewUrlParser': true }, (error, client) => {
-   if (error) {
-       console.log('Unable to connect to the database!');
-   }
+    if (error) {
+        console.log('Unable to connect to the database!');
+    }
 
-   const db = client.db(databaseName);
+    const db = client.db(databaseName);
 
-//    db.collection('users').insertOne({
-//        name: 'Gosho',
-//        age: 17
-//    }, (error, result) => {
-//        if (error) {
-//            return console.log('Unable to insert document!');
-//        }
+    //insertUser(db);
+    //insertUsers(db);
+    //insertTasks(db);
+});
 
-//        console.log(result.ops);
-//    });
+function insertUser(db) {
+    db.collection('users').insertOne({
+        name: 'Gosho',
+        age: 17
+    }, (error, result) => {
+        if (error) {
+            return console.log('Unable to insert document!');
+        }
 
-//    db.collection('users').insertMany([
-//        {
-//         name: 'Stavri',
-//         age: 19 
-//        },
-//        {
-//         name: 'Mincho',
-//         age: 21 
-//        }
-//    ], (error, result) => {
-//        if (error) {
-//            return console.log('Unable to insert documents!');
-//        }
+        console.log(result.ops);
+    });
+}
 
-//        console.log(result.ops);
-//    });
+function insertUsers(db) {
+    db.collection('users').insertMany([
+        {
+            name: 'Stavri',
+            age: 19
+        },
+        {
+            name: 'Mincho',
+            age: 21
+        }
+    ], (error, result) => {
+        if (error) {
+            return console.log('Unable to insert documents!');
+        }
 
+        console.log(result.ops);
+    });
+}
+
+function insertTasks(db) {
     db.collection('tasks').insertMany([
         {
-            description:'My First Task',
+            description: 'My First Task',
             completed: true
         },
         {
-            description:'Clean the kitchen',
+            description: 'Clean the kitchen',
             completed: false
         },
         {
-            description:'Make dinner',
+            description: 'Make dinner',
             completed: false
         }
     ], (error, result) => {
@@ -59,5 +69,5 @@ MongoClient.connect(connectionURL, { 'useNewUrlParser': true }, (error, client) 
         }
 
         console.log(result.ops);
-    })
-});
+    });
+};
