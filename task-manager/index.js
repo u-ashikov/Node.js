@@ -29,6 +29,10 @@ MongoClient.connect(connectionURL, { 'useNewUrlParser': true }, (error, client) 
     //updateUserNameById(db, "5e64eb59d76a802b3060a188", 'Kiro');
     //updateUserAgeById(db, '5e64eeed48a6551df47a0baa', 5);
     //completeAllTasks(db);
+
+    // DELETE
+    //deleteUsersWithAge(db, 19);
+    //deleteTaskByDescription(db, 'My First Task');
 });
 
 function insertUser(db) {
@@ -178,6 +182,26 @@ function completeAllTasks(db) {
     })
     .then((result) => {
         console.log('Modified Count: ' + result.modifiedCount);
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+}
+
+function deleteUsersWithAge(db, age) {
+    db.collection('users').deleteMany({age})
+    .then((result) => {
+        console.log('Deleted count: ' + result.deletedCount);
+    })
+    .catch((error) => {
+        console.log(error)
+    });
+}
+
+function deleteTaskByDescription(db, description) {
+    db.collection('tasks').deleteOne({ description })
+    .then((result) => {
+        console.log('Deleted count: ' + result.deletedCount);
     })
     .catch((error) => {
         console.log(error);
