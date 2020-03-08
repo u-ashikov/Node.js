@@ -13,15 +13,21 @@ MongoClient.connect(connectionURL, { 'useNewUrlParser': true }, (error, client) 
 
     const db = client.db(databaseName);
 
+    // CREATE
     //insertUser(db);
     //insertUsers(db);
     //insertTasks(db);
 
+    // READ
     //findUserByName(db, 'Stavri');
     //findUsersByAge(db, 17);
 
     //findTaskById(db, '5e64effe4c45de2b18bd63e9');
-    findIncompletedTasks(db, false);
+    //findIncompletedTasks(db, false);
+
+    // UPDATE
+    //updateUserNameById(db, "5e64eb59d76a802b3060a188", 'Kiro');
+    //updateUserAgeById(db, '5e64eeed48a6551df47a0baa', 5);
 });
 
 function insertUser(db) {
@@ -132,5 +138,33 @@ function findIncompletedTasks(db, isCompleted) {
         }
 
         console.log(tasks);
+    });
+}
+
+function updateUserNameById(db, id, name) {
+    db.collection('users').updateOne({_id: ObjectID(id)}, {
+        $set: {
+            name: name
+        }
+    })
+    .then((result) => {
+        console.log(result);
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+}
+
+function updateUserAgeById(db, id, amount) {
+    db.collection('users').updateOne({_id: ObjectID(id)}, {
+        $inc: {
+            age: amount
+        }
+    })
+    .then((result) => {
+        console.log('Modified Count: ' + result.modifiedCount);
+    })
+    .catch((error) => {
+        console.log(error);
     });
 }
