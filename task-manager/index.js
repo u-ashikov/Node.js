@@ -28,6 +28,7 @@ MongoClient.connect(connectionURL, { 'useNewUrlParser': true }, (error, client) 
     // UPDATE
     //updateUserNameById(db, "5e64eb59d76a802b3060a188", 'Kiro');
     //updateUserAgeById(db, '5e64eeed48a6551df47a0baa', 5);
+    //completeAllTasks(db);
 });
 
 function insertUser(db) {
@@ -159,6 +160,20 @@ function updateUserAgeById(db, id, amount) {
     db.collection('users').updateOne({_id: ObjectID(id)}, {
         $inc: {
             age: amount
+        }
+    })
+    .then((result) => {
+        console.log('Modified Count: ' + result.modifiedCount);
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+}
+
+function completeAllTasks(db) {
+    db.collection('tasks').updateMany({ completed: false}, {
+        $set: {
+            completed: true
         }
     })
     .then((result) => {
