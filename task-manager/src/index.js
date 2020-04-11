@@ -34,6 +34,24 @@ app.get('/users', (req, res) => {
     })
 });
 
+app.get('/users/:id', (req,res) => {
+    const _id = req.params.id;
+
+    User.find({_id: _id}).then((user) => {
+        console.log(user);
+        if (!user || user.length == 0) {
+            res.status(404);
+            res.send();
+        } else {
+            res.send(user);
+        }
+    })
+    .catch((err) => {
+        res.status(500);
+        res.send(err);
+    });
+});
+
 app.post('/tasks', (req, res) => {
     const task = new Task(req.body);
 
@@ -55,7 +73,24 @@ app.get('/tasks', (req, res) => {
         res.status(500);
         res.send(err);
     })
-})
+});
+
+app.get('/tasks/:id', (req,res) => {
+    const _id = req.params.id;
+
+    Task.find({_id: _id}).then((task) => {
+        if (!task || task.length == 0) {
+            res.status(404);
+            res.send();
+        } else {
+            res.send(task);
+        }
+    })
+    .catch((err) => {
+        res.status(500);
+        res.send();
+    })
+});
 
 app.listen(port, () => { 
     console.log('Server is up and rinnning on port: ' + port); 
