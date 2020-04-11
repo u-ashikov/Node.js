@@ -11,7 +11,7 @@ app.get('/', (req, res) => {
     res.send('Hello stranger, this is Task Manager API!');
 });
 
-app.post('/user', (req, res) => {
+app.post('/users', (req, res) => {
     const user = new User(req.body);
 
     user.save().then(() => {
@@ -24,7 +24,7 @@ app.post('/user', (req, res) => {
     });
 });
 
-app.post('/task', (req, res) => {
+app.post('/tasks', (req, res) => {
     const task = new Task(req.body);
 
     task.save().then(() => {
