@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
+        unique: true,
         required: [true, 'The email is required.'],
         validate(value) {
             if (!validator.isEmail(value)) {
@@ -39,6 +40,22 @@ const userSchema = new mongoose.Schema({
         trim: true
     }
 });
+
+userSchema.statics.checkCredentials = async (email, password) => {
+    const user = await User.findOne({email: email});
+
+    if (!user) {
+        throw new Error("Invalid credentials.");
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+        throw new Error('Invalid credentials.');
+    }
+
+    return user;
+};
 
 userSchema.pre('save', async function (next) {
     const user = this;

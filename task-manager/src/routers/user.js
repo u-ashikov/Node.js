@@ -67,6 +67,21 @@ router.patch('/users/:id', async (req, res) => {
     }
 });
 
+router.post('/users/login', async (req, res) => {
+    try {
+        const user = await User.checkCredentials(req.body.email, req.body.password);
+
+        if (!user) {
+            return res.status(400).send();
+        }
+
+        res.send(user);
+
+    } catch (err) {
+        res.status(400).send();
+    }
+});
+
 router.delete('/users/:id', async (req, res) => {
     try {
         const user = await User.findByIdAndDelete(req.params.id);
