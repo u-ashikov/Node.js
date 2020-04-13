@@ -1,5 +1,6 @@
 const express = require('express');
 const User = require('../db/models/user');
+const auth = require('../middleware/auth');
 
 const router = new express.Router();
 
@@ -8,16 +9,17 @@ router.post('/users', async (req, res) => {
         const user = new User(req.body);
         await user.save();
 
-        res.status(201).send('User created!'); 
+        const token = await user.createAuthToken();
+
+        res.status(201).send({message: 'User created!', token}); 
     } catch (err) {
         res.status(400).send(err);
     }
 });
 
-router.get('/users', async (req, res) => {
+router.get('/users/me', auth, async (req, res) => {
     try {
-        const users = await User.find({});
-        res.send(users);
+        res.send(req.user);
     } catch (err) {
         res.status(400).send(err);
     }
@@ -70,12 +72,9 @@ router.patch('/users/:id', async (req, res) => {
 router.post('/users/login', async (req, res) => {
     try {
         const user = await User.checkCredentials(req.body.email, req.body.password);
+        const token = await user.createAuthToken();
 
-        if (!user) {
-            return res.status(400).send();
-        }
-
-        res.send(user);
+        res.send({user, token});
 
     } catch (err) {
         res.status(400).send();
