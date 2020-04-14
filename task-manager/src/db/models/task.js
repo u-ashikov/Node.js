@@ -8,6 +8,10 @@ const Task = mongoose.model('Task', {
     completed: {
         type: Boolean,
         default: false
+    },
+    owner: {
+        type: "ObjectId",
+        ref: 'User'
     }
 });
 
