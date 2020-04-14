@@ -5,3 +5,5 @@ mongoose.connect('mongodb://localhost:27017/task-manager', {
     useCreateIndex: true,
     useFindAndModify: false
 });
+
+module.exports = mongoose;
