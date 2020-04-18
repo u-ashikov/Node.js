@@ -11,7 +11,7 @@ function getContentType(url) {
         return 'image/png';
     }
 
-    return 'text/plain';
+    return 'text/html';
 }
 
 module.exports = {
