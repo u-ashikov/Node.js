@@ -2,10 +2,13 @@
   "name": "cat-shelter",
   "version": "1.0.0",
   "description": "Cat catalog application.",
-  "main": "app.js",
+  "main": "src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Yulian Ashikov",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^2.0.3"
+  }
 }
