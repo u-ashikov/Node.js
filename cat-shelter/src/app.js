@@ -1,14 +1,14 @@
 const http = require('http');
 const hostName = '127.0.0.1';
 const port = 3000;
+const handlers = require('./handlers/index');
 
-const server = http.createServer(function (req, res) {
-    res.writeHead(200, {
-        'Content-Type': 'text/html'
-    });
-
-    res.write('<h1>Hello World</h1>');
-    res.end();
+const server = http.createServer((req, res) => {
+    for (var handler of handlers) {
+        if (!handler(req, res)) {
+            break;
+        }
+    }
 });
 
 server.listen(port, hostName, () => {
