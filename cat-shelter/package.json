@@ -9,6 +9,7 @@
   "author": "Yulian Ashikov",
   "license": "ISC",
   "dependencies": {
+    "mongoose": "^5.9.9",
     "nodemon": "^2.0.3"
   }
 }

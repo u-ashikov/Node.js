@@ -3,6 +3,8 @@ const hostName = '127.0.0.1';
 const port = 3000;
 const handlers = require('./handlers/index');
 
+require('./data/mongoose');
+
 const server = http.createServer((req, res) => {
     for (var handler of handlers) {
         if (!handler(req, res)) {
