@@ -2,7 +2,10 @@ const http = require('http');
 const path = require('path');
 const url = require('url');
 const fs = require('fs');
+const qs = require('querystring');
 const helpers = require('../utils/helpers');
+
+const Breed = require('../models/breed');
 
 function handle(req, res) {
     var urlPath = url.parse(req.url).pathname;
@@ -22,7 +25,7 @@ function handle(req, res) {
                 return;
             } else {
                 res.writeHead(200, {
-                    'Content-Type':contentType
+                    'Content-Type': contentType
                 });
 
                 res.write(html);
@@ -45,13 +48,43 @@ function handle(req, res) {
                 return;
             } else {
                 res.writeHead(200, {
-                    'Content-Type':contentType
+                    'Content-Type': contentType
                 });
 
                 res.write(html);
                 res.end();
             }
         })
+    } else if (urlPath == '/cats/add-breed' && req.method == 'POST') {
+        var contentType = helpers.getContentType(req.url);
+
+        let body = '';
+        req.on('data', function (chunk) {
+            body += chunk.toString();
+
+            if (body.length > 1e6) {
+                req.connection.destroy();
+            }
+        });
+
+        req.on('end', async function () {
+            try {
+                var formData = qs.parse(body);
+
+                var catBreed = new Breed({ name: formData.breed });
+
+                await catBreed.save();
+
+                res.writeHead(301, {
+                    'Location': '/'
+                });
+
+                res.end();
+            } catch (error) {
+                res.writeHead(400);
+                res.end('Bad Request.');
+            }
+        });
     } else {
         return true;
     }
