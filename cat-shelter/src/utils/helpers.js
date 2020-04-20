@@ -9,6 +9,8 @@ function getContentType(url) {
         return 'text/html';
     } else if (url.endsWith('png')) {
         return 'image/png';
+    } else if (url.endsWith('ico')) {
+        return 'image/x-icon';
     }
 
     return 'text/html';
