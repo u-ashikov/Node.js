@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('../data/mongoose');
 
 const breedSchema = new mongoose.Schema({
     name: {
