@@ -13,13 +13,13 @@ const catSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    breed: {
+    breedId: {
         type: 'ObjectId',
         ref: 'Breed',
         required: true
     }
 });
 
-const Cat = mongoose.Model('Cat', catSchema);
+const Cat = mongoose.model('Cat', catSchema);
 
 module.exports = Cat;
