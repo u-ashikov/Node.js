@@ -14,7 +14,7 @@ function handle(req, res) {
         var contentType = helpers.getContentType(req.url);
         var filePath = path.normalize(path.join(__dirname, '../views/addCat.html'));
 
-        fs.readFile(filePath, (err, html) => {
+        fs.readFile(filePath, async (err, html) => {
             if (err) {
                 res.writeHead(404, {
                     'Content-Type': 'text/plain'
@@ -27,6 +27,13 @@ function handle(req, res) {
                 res.writeHead(200, {
                     'Content-Type': contentType
                 });
+
+                var breeds = await Breed.find();
+                
+                if (breeds) {
+                    var breedsOptions = breeds.map((breed) => `<option value="${breed.name}">${breed.name}</option>`);
+                    html = html.toString().replace("{{breeds}}", breedsOptions.join(''));
+                }
 
                 res.write(html);
                 res.end();
