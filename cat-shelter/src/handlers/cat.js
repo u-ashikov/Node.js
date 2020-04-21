@@ -6,6 +6,7 @@ const qs = require('querystring');
 const helpers = require('../utils/helpers');
 
 const Breed = require('../models/breed');
+const Cat = require('../models/cat');
 
 function handle(req, res) {
     var urlPath = url.parse(req.url).pathname;
@@ -31,7 +32,7 @@ function handle(req, res) {
                 var breeds = await Breed.find();
                 
                 if (breeds) {
-                    var breedsOptions = breeds.map((breed) => `<option value="${breed.name}">${breed.name}</option>`);
+                    var breedsOptions = breeds.map((breed) => `<option value="${breed._id}">${breed.name}</option>`);
                     html = html.toString().replace("{{breeds}}", breedsOptions.join(''));
                 }
 
@@ -39,7 +40,35 @@ function handle(req, res) {
                 res.end();
             }
         });
+    } else if (urlPath == '/cats/add-cat' && req.method == 'POST') {
+        let body = '';
 
+        req.on('data', (chunk) => {
+            body += chunk.toString();
+
+            if (body.length > 1e6) {
+                req.connection.destroy();
+            }
+        });
+
+        req.on('end', async () => {
+            var formData = qs.parse(body);
+            
+            var cat = new Cat({
+                name: formData.name, 
+                description: formData.description, 
+                imageUrl: formData.imageUrl, 
+                breedId: formData.breed
+            });
+
+            await cat.save();
+
+            res.writeHead(301, {
+                'Location': '/'
+            });
+
+            res.end();
+        });
     } else if (urlPath == '/cats/add-breed' && req.method == 'GET') {
         var contentType = helpers.getContentType(req.url);
         var filePath = path.normalize(path.join(__dirname, '../views/addBreed.html'));
