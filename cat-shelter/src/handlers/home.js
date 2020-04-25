@@ -35,11 +35,11 @@ function handle(req, res) {
                         var catItem = fs.readFileSync(catListItemViewPath, 'utf-8');
 
                         catItem = catItem
-                                    .replace('{{id}}', cat._id)
-                                    .replace('{{imageUrl}}', cat.imageUrl)
-                                    .replace('{{name}}', cat.name)
-                                    .replace('{{breed}}', cat.breed.name)
-                                    .replace('{{description}}', cat.description);
+                                    .replace(/{{id}}/g, cat._id)
+                                    .replace(/{{imageUrl}}/g, cat.imageUrl)
+                                    .replace(/{{name}}/g, cat.name)
+                                    .replace(/{{breed}}/g, cat.breed.name)
+                                    .replace(/{{description}}/g, cat.description);
 
                         catsItems += catItem;
                     });
