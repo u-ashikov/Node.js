@@ -58,7 +58,7 @@ function handle(req, res) {
                 name: formData.name, 
                 description: formData.description, 
                 imageUrl: formData.imageUrl, 
-                breedId: formData.breed
+                breed: formData.breed
             });
 
             await cat.save();

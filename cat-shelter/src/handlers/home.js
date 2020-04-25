@@ -24,7 +24,7 @@ function handle(req, res) {
                     return;
                 }
 
-                var cats = await Cat.find();
+                var cats = await Cat.find({}).populate('breed');
 
                 if (!cats) {
                     html = html.toString().replace('{{cats}}', '<h1>There are no cats!</h1>');
@@ -37,7 +37,7 @@ function handle(req, res) {
                         catItem = catItem
                                     .replace('{{imageUrl}}', cat.imageUrl)
                                     .replace('{{name}}', cat.name)
-                                    .replace('{{breed}}', cat.breed)
+                                    .replace('{{breed}}', cat.breed.name)
                                     .replace('{{description}}', cat.description);
 
                         catsItems += catItem;

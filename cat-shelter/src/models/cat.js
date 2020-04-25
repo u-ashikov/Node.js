@@ -13,7 +13,7 @@ const catSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    breedId: {
+    breed: {
         type: 'ObjectId',
         ref: 'Breed',
         required: true
