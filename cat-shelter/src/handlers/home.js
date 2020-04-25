@@ -35,6 +35,7 @@ function handle(req, res) {
                         var catItem = fs.readFileSync(catListItemViewPath, 'utf-8');
 
                         catItem = catItem
+                                    .replace('{{id}}', cat._id)
                                     .replace('{{imageUrl}}', cat.imageUrl)
                                     .replace('{{name}}', cat.name)
                                     .replace('{{breed}}', cat.breed.name)
