@@ -8,32 +8,33 @@ const Breed = require('../models/breed');
 
 function handle(req, res) {
     var urlPath = url.parse(req.url).pathname;
+    var contentType = helpers.getContentType(req.url);
 
     if (urlPath == '/breeds/add-breed' && req.method == 'GET') {
-        var contentType = helpers.getContentType(req.url);
-        var filePath = path.normalize(path.join(__dirname, '../views/addBreed.html'));
+        try {
+            var filePath = path.normalize(path.join(__dirname, '../views/addBreed.html'));
 
-        fs.readFile(filePath, (err, html) => {
-            if (err) {
-                res.writeHead(404, {
-                    'Content-Type': 'text/plain'
-                });
+            fs.readFile(filePath, (err, html) => {
+                if (err) {
+                    res.writeHead(404, {
+                        'Content-Type': 'text/plain'
+                    });
 
-                res.write('The page was not found.');
+                    res.write('The page was not found.');
+                } else {
+                    res.writeHead(200, {
+                        'Content-Type': contentType
+                    });
+
+                    res.write(html);
+                }
+
                 res.end();
-                return;
-            } else {
-                res.writeHead(200, {
-                    'Content-Type': contentType
-                });
-
-                res.write(html);
-                res.end();
-            }
-        });
+            });
+        } catch (error) {
+            console.log(error);
+        }
     } else if (urlPath == '/breeds/add-breed' && req.method == 'POST') {
-        var contentType = helpers.getContentType(req.url);
-
         let body = '';
         req.on('data', function (chunk) {
             body += chunk.toString();
@@ -46,7 +47,6 @@ function handle(req, res) {
         req.on('end', async function () {
             try {
                 var formData = qs.parse(body);
-
                 var catBreed = new Breed({ name: formData.breed });
 
                 await catBreed.save();
