@@ -69,6 +69,92 @@ function handle(req, res) {
 
             res.end();
         });
+    } else if (urlPath == '/cats/shelter-cat' && req.method == 'GET') {
+        var contentType = helpers.getContentType(req.url);
+        var filePath = path.normalize(path.join(__dirname, "../views/catShelter.html"));
+
+        try {
+            fs.readFile(filePath, async (err, html) => {
+                if (err) {
+                    res.writeHead('400', {
+                        'Content-Type': 'text/html'
+                    });
+
+                    res.write('<h1>The page was not found.</h1>');
+                    res.end();
+                } else {
+                    var queryString = url.parse(req.url, true).query;
+
+                    var cat = await Cat.findById(queryString.id);
+
+                    if (!cat) {
+                        res.writeHead('404', {
+                            'Content-Type': 'text/html'
+                        });
+
+                        res.write('<h1>Cat was not found!</h1>');
+                        res.end();
+                    } else {
+                        await Cat.populate(cat, 'breed');
+
+                        html = html.toString()
+                                .replace(/{{id}}/g, cat._id)
+                                .replace(/{{imageUrl}}/g, cat.imageUrl)
+                                .replace(/{{name}}/g, cat.name)
+                                .replace(/{{description}}/g, cat.description)
+                                .replace(/{{breed}}/g, cat.breed.name);
+
+                        res.writeHead('200', {
+                            'Content-Type': contentType
+                        });
+
+                        res.write(html);
+                        res.end();
+                    }
+                }
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    } else if (urlPath == '/cats/shelter-cat' && req.method == 'POST') {
+        var contentType = helpers.getContentType(req.url);
+        
+        try {
+            let body = '';
+
+            req.on('data', async function (chunk) {
+                body += chunk;
+
+                if (body.length > 1e6) {
+                    req.connection.destroy();
+                }
+            });
+
+            req.on('end', async function () {
+                var formData = qs.parse(body);
+
+                var cat = await Cat.findById(formData.id);
+
+                if (!cat) {
+                    res.writeHead('404', {
+                        'Content-Type': 'text/html'
+                    });
+
+                    res.write('<h1>Cat was not found!</h1>');
+                    res.end();
+                } else {
+                    await Cat.deleteOne({'_id': formData.id });
+
+                    res.writeHead('301', {
+                        'Location': '/'
+                    });
+
+                    res.end();
+                }
+            });
+        } catch (error) {
+            console.log(error);
+        }
     } else if (urlPath == '/cats/edit-cat' && req.method == 'GET') {
         var contentType = helpers.getContentType(req.url);
         var filePath = path.normalize(path.join(__dirname, '../views/editCat.html'));
@@ -119,7 +205,7 @@ function handle(req, res) {
                 }
             }
         });
-    } else if (req.url == '/cats/edit-cat' && req.method == 'POST') {
+    } else if (urlPath == '/cats/edit-cat' && req.method == 'POST') {
         var contentType = helpers.getContentType(req.url);
 
         try {
@@ -184,7 +270,7 @@ function handle(req, res) {
                 res.write(html);
                 res.end();
             }
-        })
+        });
     } else if (urlPath == '/cats/add-breed' && req.method == 'POST') {
         var contentType = helpers.getContentType(req.url);
 
