@@ -2,7 +2,8 @@
 
 This repository contains Node.js projects.
 
-## Cat Shelter - cats adopting application, written without any web framework. For data storage is used MongoDB and for MongoDB object modeling is used Mongoose. The application provides the functionalities:
+## Cat Shelter ##
+Cats adopting application, written without any web framework. For data storage is used MongoDB and for MongoDB object modeling is used Mongoose. The application provides the functionalities:
 * Create cat breed.
 * List all cats.
 * Create a cat.
